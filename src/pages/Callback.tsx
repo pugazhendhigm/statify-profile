@@ -18,13 +18,15 @@ export const Callback: React.FC = () => {
 
       if (error) {
         setError(`Authentication error: ${error}`);
-        navigate('/');
+        // Add a small delay to ensure error state is set before navigation
+        setTimeout(() => navigate('/'), 100);
         return;
       }
 
       if (!code || !state || state !== storedState) {
         setError('Invalid authentication callback');
-        navigate('/');
+        // Add a small delay to ensure error state is set before navigation
+        setTimeout(() => navigate('/'), 100);
         return;
       }
 
@@ -34,7 +36,9 @@ export const Callback: React.FC = () => {
         navigate('/dashboard');
       } catch (error) {
         console.error('Login failed:', error);
-        navigate('/');
+        setError(error instanceof Error ? error.message : 'Login failed');
+        // Add a small delay to ensure error state is set before navigation
+        setTimeout(() => navigate('/'), 100);
       }
     };
 
