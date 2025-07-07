@@ -2,7 +2,7 @@ export const SPOTIFY_CONFIG = {
   CLIENT_ID: import.meta.env.VITE_SPOTIFY_CLIENT_ID || '9a5ee17e2a9a44fc9fa9657a5af17309',
   CLIENT_SECRET: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET || 'c6a036cd9fd24b808b31e8127912fbb6',
   REDIRECT_URI: import.meta.env.VITE_SPOTIFY_REDIRECT_URI || 'https://statify-profile.vercel.app/callback',
-  BASE_URL: import.meta.env.VITE_BASE_URL,
+  BASE_URL: import.meta.env.VITE_BASE_URL || 'https://statify-profile.vercel.app',
   SCOPES: [
     'user-read-private',
     'user-read-email',
