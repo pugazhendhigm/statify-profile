@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { Music, BarChart3, Users, Clock, Headphones, TrendingUp } from 'lucide-react';
+import { Music, BarChart3, Users, Clock, Headphones, TrendingUp, Github, Heart } from 'lucide-react';
 import { LoginButton } from '../components/spotify/LoginButton';
-import { ThemeToggle } from '../components/ui/ThemeToggle';
+// import { ThemeToggle } from '../components/ui/ThemeToggle';
 
 export const Landing: React.FC = () => {
   return (
@@ -21,15 +21,19 @@ export const Landing: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Music className="w-7 h-7 text-white" />
+            <div className="w-16 h-16 flex items-center justify-center">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg"
+                alt="Spotify"
+                className="w-12 h-12"
+              />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-              Spotify Profile
+              Statify
             </h1>
           </motion.div>
           
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </header>
 
         <main className="text-center">
@@ -169,6 +173,41 @@ export const Landing: React.FC = () => {
             </div>
           </motion.div>
         </main>
+
+        {/* Footer */}
+        <motion.footer
+          className="mt-24 border-t border-white/10 pt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 2 }}
+        >
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>Designed and developed with</span>
+              <Heart className="w-4 h-4 text-red-500 animate-pulse" />
+              <span>by</span>
+              <span className="text-white font-semibold">Pugazhendhi</span>
+            </div>
+            
+            <motion.a
+              href="https://github.com/pugazhendhigm/statify-profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Github className="w-5 h-5 group-hover:text-green-400 transition-colors" />
+              <span className="group-hover:text-green-400 transition-colors">
+                View on GitHub
+              </span>
+            </motion.a>
+          </div>
+          
+          <div className="mt-4 text-center text-sm text-gray-500">
+            <p>© 2024 Statify Profile. All rights reserved.</p>
+          </div>
+        </motion.footer>
       </div>
     </div>
   );

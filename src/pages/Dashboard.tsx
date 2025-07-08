@@ -1,50 +1,60 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useQuery } from '@tanstack/react-query';
-import { Music, Users, Clock, BarChart3, Headphones, TrendingUp } from 'lucide-react';
-import { useAuthStore } from '../store/authStore';
-import { spotifyService } from '../services/spotify';
-import { UserProfile } from '../components/spotify/UserProfile';
-import { CurrentlyPlaying } from '../components/spotify/CurrentlyPlaying';
-import { ArtistCard } from '../components/spotify/ArtistCard';
-import { TrackCard } from '../components/spotify/TrackCard';
-import { AudioFeatures } from '../components/spotify/AudioFeatures';
-import { GenreChart } from '../components/spotify/GenreChart';
-import { TimeRangeSelector } from '../components/spotify/TimeRangeSelector';
-import { ThemeToggle } from '../components/ui/ThemeToggle';
-import { Card } from '../components/ui/Card';
-import { SkeletonLoader } from '../components/ui/SkeletonLoader';
-import type { TimeRange } from '../types/spotify';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Music,
+  Users,
+  Clock,
+  BarChart3,
+  Github,
+  Heart,
+  //  Headphones, TrendingUp
+} from "lucide-react";
+import { useAuthStore } from "../store/authStore";
+import { spotifyService } from "../services/spotify";
+import { UserProfile } from "../components/spotify/UserProfile";
+// import { CurrentlyPlaying } from '../components/spotify/CurrentlyPlaying';
+import { ArtistCard } from "../components/spotify/ArtistCard";
+import { TrackCard } from "../components/spotify/TrackCard";
+import { AudioFeatures } from "../components/spotify/AudioFeatures";
+import { GenreChart } from "../components/spotify/GenreChart";
+import { TimeRangeSelector } from "../components/spotify/TimeRangeSelector";
+// import { ThemeToggle } from "../components/ui/ThemeToggle";
+import { Card } from "../components/ui/Card";
+import { SkeletonLoader } from "../components/ui/SkeletonLoader";
+import type { TimeRange } from "../types/spotify";
 
 export const Dashboard: React.FC = () => {
   const { user } = useAuthStore();
-  const [timeRange, setTimeRange] = useState<TimeRange>('medium_term');
+  const [timeRange, setTimeRange] = useState<TimeRange>("medium_term");
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'artists' | 'tracks' | 'recent' | 'playlists'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "artists" | "tracks" | "recent" | "playlists"
+  >("overview");
 
   const { data: topArtists, isLoading: loadingArtists } = useQuery({
-    queryKey: ['topArtists', timeRange],
+    queryKey: ["topArtists", timeRange],
     queryFn: () => spotifyService.getTopArtists(timeRange, 50),
   });
 
   const { data: topTracks, isLoading: loadingTracks } = useQuery({
-    queryKey: ['topTracks', timeRange],
+    queryKey: ["topTracks", timeRange],
     queryFn: () => spotifyService.getTopTracks(timeRange, 50),
   });
 
   const { data: recentTracks, isLoading: loadingRecent } = useQuery({
-    queryKey: ['recentTracks'],
+    queryKey: ["recentTracks"],
     queryFn: () => spotifyService.getRecentlyPlayed(50),
   });
 
   if (!user) return null;
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: BarChart3 },
-    { id: 'artists', label: 'Top Artists', icon: Users },
-    { id: 'tracks', label: 'Top Tracks', icon: Music },
-    { id: 'recent', label: 'Recent', icon: Clock },
-    { id: 'playlists', label: 'Features', icon: Headphones },
+    { id: "overview", label: "Overview", icon: BarChart3 },
+    { id: "artists", label: "Top Artists", icon: Users },
+    { id: "tracks", label: "Top Tracks", icon: Music },
+    { id: "recent", label: "Recent", icon: Clock },
+    // { id: 'playlists', label: 'Features', icon: Headphones },
   ] as const;
 
   return (
@@ -63,19 +73,23 @@ export const Dashboard: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Music className="w-7 h-7 text-white" />
+            <div className="w-16 h-16 flex items-center justify-center">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg"
+                alt="Spotify"
+                className="w-12 h-12"
+              />
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                Spotify Profile
+                Statify Profile
               </h1>
               <p className="text-gray-400">Welcome back, {user.display_name}</p>
             </div>
           </motion.div>
-          
+
           <div className="flex items-center gap-4">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             <UserProfile />
           </div>
         </header>
@@ -93,8 +107,8 @@ export const Dashboard: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
                 activeTab === tab.id
-                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
-                  : 'text-gray-300 hover:text-white hover:bg-white/10'
+                  ? "bg-green-500 text-white shadow-lg shadow-green-500/25"
+                  : "text-gray-300 hover:text-white hover:bg-white/10"
               }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -107,7 +121,7 @@ export const Dashboard: React.FC = () => {
 
         <main className="space-y-8">
           <AnimatePresence mode="wait">
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <motion.div
                 key="overview"
                 initial={{ opacity: 0, y: 20 }}
@@ -117,17 +131,20 @@ export const Dashboard: React.FC = () => {
                 className="space-y-8"
               >
                 {/* Currently Playing */}
-                <section>
+                {/* <section>
                   <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                     <TrendingUp className="w-7 h-7 text-green-400" />
                     Now Playing
                   </h2>
                   <CurrentlyPlaying />
-                </section>
+                </section> */}
 
                 {/* Time Range Selector */}
                 <section className="flex justify-center">
-                  <TimeRangeSelector selected={timeRange} onSelect={setTimeRange} />
+                  <TimeRangeSelector
+                    selected={timeRange}
+                    onSelect={setTimeRange}
+                  />
                 </section>
 
                 {/* Overview Grid */}
@@ -140,7 +157,7 @@ export const Dashboard: React.FC = () => {
                         Top Artists
                       </h3>
                       <button
-                        onClick={() => setActiveTab('artists')}
+                        onClick={() => setActiveTab("artists")}
                         className="text-green-400 hover:text-green-300 text-sm font-medium"
                       >
                         View All
@@ -167,16 +184,20 @@ export const Dashboard: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
                           >
-                            <span className="text-green-400 font-bold text-sm w-6">#{index + 1}</span>
+                            <span className="text-green-400 font-bold text-sm w-6">
+                              #{index + 1}
+                            </span>
                             <img
                               src={artist.images[0]?.url}
                               alt={artist.name}
                               className="w-12 h-12 rounded-full object-cover"
                             />
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-medium text-white truncate">{artist.name}</h4>
+                              <h4 className="font-medium text-white truncate">
+                                {artist.name}
+                              </h4>
                               <p className="text-sm text-gray-400 truncate">
-                                {artist.genres.slice(0, 2).join(', ')}
+                                {artist.genres.slice(0, 2).join(", ")}
                               </p>
                             </div>
                           </motion.div>
@@ -189,11 +210,11 @@ export const Dashboard: React.FC = () => {
                   <Card>
                     <div className="flex items-center justify-between mb-6">
                       <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                        <Music className="w-6 h-6 text-green-400" />
+                        <Music className="w-6 h-6 text-green-imited" />
                         Top Tracks
                       </h3>
                       <button
-                        onClick={() => setActiveTab('tracks')}
+                        onClick={() => setActiveTab("tracks")}
                         className="text-green-400 hover:text-green-300 text-sm font-medium"
                       >
                         View All
@@ -204,7 +225,7 @@ export const Dashboard: React.FC = () => {
                         {Array.from({ length: 5 }).map((_, i) => (
                           <div key={i} className="flex items-center gap-3">
                             <SkeletonLoader className="w-12 h-12 rounded-lg" />
-                            <div className="flex-1">
+                            <div className="lex-1">
                               <SkeletonLoader count={2} />
                             </div>
                           </div>
@@ -221,16 +242,20 @@ export const Dashboard: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.1 }}
                           >
-                            <span className="text-green-400 font-bold text-sm w-6">#{index + 1}</span>
+                            <span className="text-green-400 font-bold text-sm w-6">
+                              #{index + 1}
+                            </span>
                             <img
                               src={track.album.images[0]?.url}
                               alt={track.album.name}
                               className="w-12 h-12 rounded-lg object-cover"
                             />
                             <div className="flex-1 min-w-0">
-                              <h4 className="font-medium text-white truncate">{track.name}</h4>
+                              <h4 className="font-medium text-white truncate">
+                                {track.name}
+                              </h4>
                               <p className="text-sm text-gray-400 truncate">
-                                {track.artists.map(a => a.name).join(', ')}
+                                {track.artists.map((a) => a.name).join(", ")}
                               </p>
                             </div>
                           </motion.div>
@@ -245,7 +270,7 @@ export const Dashboard: React.FC = () => {
               </motion.div>
             )}
 
-            {activeTab === 'artists' && (
+            {activeTab === "artists" && (
               <motion.div
                 key="artists"
                 initial={{ opacity: 0, y: 20 }}
@@ -255,11 +280,16 @@ export const Dashboard: React.FC = () => {
                 className="space-y-8"
               >
                 <div className="flex justify-center">
-                  <TimeRangeSelector selected={timeRange} onSelect={setTimeRange} />
+                  <TimeRangeSelector
+                    selected={timeRange}
+                    onSelect={setTimeRange}
+                  />
                 </div>
-                
+
                 <section>
-                  <h2 className="text-3xl font-bold mb-8 text-center">Your Top Artists</h2>
+                  <h2 className="text-3xl font-bold mb-8 text-center">
+                    Your Top Artists
+                  </h2>
                   {loadingArtists ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                       {Array.from({ length: 20 }).map((_, i) => (
@@ -272,7 +302,11 @@ export const Dashboard: React.FC = () => {
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                       {topArtists?.items.map((artist, index) => (
-                        <ArtistCard key={artist.id} artist={artist} rank={index + 1} />
+                        <ArtistCard
+                          key={artist.id}
+                          artist={artist}
+                          rank={index + 1}
+                        />
                       ))}
                     </div>
                   )}
@@ -280,7 +314,7 @@ export const Dashboard: React.FC = () => {
               </motion.div>
             )}
 
-            {activeTab === 'tracks' && (
+            {activeTab === "tracks" && (
               <motion.div
                 key="tracks"
                 initial={{ opacity: 0, y: 20 }}
@@ -290,11 +324,16 @@ export const Dashboard: React.FC = () => {
                 className="space-y-8"
               >
                 <div className="flex justify-center">
-                  <TimeRangeSelector selected={timeRange} onSelect={setTimeRange} />
+                  <TimeRangeSelector
+                    selected={timeRange}
+                    onSelect={setTimeRange}
+                  />
                 </div>
-                
+
                 <section>
-                  <h2 className="text-3xl font-bold mb-8 text-center">Your Top Tracks</h2>
+                  <h2 className="text-3xl font-bold mb-8 text-center">
+                    Your Top Tracks
+                  </h2>
                   {loadingTracks ? (
                     <div className="space-y-4">
                       {Array.from({ length: 20 }).map((_, i) => (
@@ -323,7 +362,7 @@ export const Dashboard: React.FC = () => {
               </motion.div>
             )}
 
-            {activeTab === 'recent' && (
+            {activeTab === "recent" && (
               <motion.div
                 key="recent"
                 initial={{ opacity: 0, y: 20 }}
@@ -333,7 +372,9 @@ export const Dashboard: React.FC = () => {
                 className="space-y-8"
               >
                 <section>
-                  <h2 className="text-3xl font-bold mb-8 text-center">Recently Played</h2>
+                  <h2 className="text-3xl font-bold mb-8 text-center">
+                    Recently Played
+                  </h2>
                   {loadingRecent ? (
                     <div className="space-y-4">
                       {Array.from({ length: 20 }).map((_, i) => (
@@ -365,9 +406,11 @@ export const Dashboard: React.FC = () => {
                             className="w-16 h-16 rounded-lg object-cover"
                           />
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-white truncate">{item.track.name}</h3>
+                            <h3 className="font-semibold text-white truncate">
+                              {item.track.name}
+                            </h3>
                             <p className="text-gray-300 truncate">
-                              {item.track.artists.map(a => a.name).join(', ')}
+                              {item.track.artists.map((a) => a.name).join(", ")}
                             </p>
                             <p className="text-sm text-gray-400">
                               {new Date(item.played_at).toLocaleString()}
@@ -381,7 +424,7 @@ export const Dashboard: React.FC = () => {
               </motion.div>
             )}
 
-            {activeTab === 'playlists' && selectedTrackId && (
+            {activeTab === "playlists" && selectedTrackId && (
               <motion.div
                 key="playlists"
                 initial={{ opacity: 0, y: 20 }}
@@ -395,7 +438,7 @@ export const Dashboard: React.FC = () => {
           </AnimatePresence>
 
           {/* Audio Features Modal */}
-          {selectedTrackId && activeTab !== 'playlists' && (
+          {/* {selectedTrackId && activeTab !== "playlists" && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -409,7 +452,9 @@ export const Dashboard: React.FC = () => {
                 animate={{ scale: 1 }}
               >
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-2xl font-bold text-white">Audio Features</h3>
+                  <h3 className="text-2xl font-bold text-white">
+                    Audio Features
+                  </h3>
                   <button
                     onClick={() => setSelectedTrackId(null)}
                     className="text-gray-400 hover:text-white text-2xl"
@@ -420,8 +465,38 @@ export const Dashboard: React.FC = () => {
                 <AudioFeatures trackId={selectedTrackId} />
               </motion.div>
             </motion.div>
-          )}
+          )} */}
         </main>
+
+        {/* Footer */}
+        <footer className="mt-16 border-t border-white/10 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-400">
+              <span>Designed and developed with</span>
+              <Heart className="w-4 h-4 text-red-500 animate-pulse" />
+              <span>by</span>
+              <span className="text-white font-semibold">Pugazhendhi</span>
+            </div>
+            
+            <motion.a
+              href="https://github.com/pugazhendhigm/statify-profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Github className="w-5 h-5 group-hover:text-green-400 transition-colors" />
+              <span className="group-hover:text-green-400 transition-colors">
+                View on GitHub
+              </span>
+            </motion.a>
+          </div>
+          
+          <div className="mt-4 text-center text-sm text-gray-500">
+            <p>© 2025 Statify. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </div>
   );
