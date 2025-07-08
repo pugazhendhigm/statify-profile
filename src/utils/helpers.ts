@@ -48,6 +48,7 @@ export const setStoredTokens = (tokens: AuthTokens): void => {
 export const clearStoredTokens = (): void => {
   localStorage.removeItem(STORAGE_KEYS.AUTH_TOKENS);
   localStorage.removeItem(STORAGE_KEYS.USER_DATA);
+  localStorage.removeItem('spotify-auth'); // Clear zustand persist data
 };
 
 export const isTokenExpired = (tokens: AuthTokens): boolean => {

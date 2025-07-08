@@ -18,27 +18,25 @@ export const Callback: React.FC = () => {
 
       if (error) {
         setError(`Authentication error: ${error}`);
-        // Add a small delay to ensure error state is set before navigation
-        setTimeout(() => navigate('/'), 100);
+        sessionStorage.removeItem('spotify_auth_state');
+        navigate('/');
         return;
       }
 
       if (!code || !state || state !== storedState) {
         setError('Invalid authentication callback');
-        // Add a small delay to ensure error state is set before navigation
-        setTimeout(() => navigate('/'), 100);
+        sessionStorage.removeItem('spotify_auth_state');
+        navigate('/');
         return;
       }
 
       try {
         await login(code);
         sessionStorage.removeItem('spotify_auth_state');
-        navigate('/dashboard');
       } catch (error) {
         console.error('Login failed:', error);
-        setError(error instanceof Error ? error.message : 'Login failed');
-        // Add a small delay to ensure error state is set before navigation
-        setTimeout(() => navigate('/'), 100);
+        sessionStorage.removeItem('spotify_auth_state');
+        navigate('/');
       }
     };
 

@@ -171,6 +171,9 @@ class SpotifyService {
   logout(): void {
     clearStoredTokens();
     this.accessToken = null;
+    
+    // Clear any cached data
+    sessionStorage.clear();
   }
 }
 

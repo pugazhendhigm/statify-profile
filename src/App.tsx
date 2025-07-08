@@ -20,7 +20,7 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const { isAuthenticated, isLoading, initialize } = useAuthStore();
+  const { isAuthenticated, isLoading, isInitialized, initialize } = useAuthStore();
   const { isDark } = useThemeStore();
 
   useEffect(() => {
@@ -35,7 +35,8 @@ function App() {
     }
   }, [isDark]);
 
-  if (isLoading) {
+  // Show loading only if we haven't initialized yet
+  if (!isInitialized || isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 flex items-center justify-center">
         <LoadingSpinner size="lg" />
@@ -56,6 +57,8 @@ function App() {
             element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} 
           />
           <Route path="/callback" element={<Callback />} />
+          {/* Catch all route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
       <ReactQueryDevtools initialIsOpen={false} />

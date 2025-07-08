@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Music, Users, Clock, BarChart3,
-  //  Headphones, TrendingUp,
-    Heart } from 'lucide-react';
+import { Music, Users, Clock, BarChart3, Headphones, TrendingUp } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { spotifyService } from '../services/spotify';
 import { UserProfile } from '../components/spotify/UserProfile';
-// import { CurrentlyPlaying } from '../components/spotify/CurrentlyPlaying';
+import { CurrentlyPlaying } from '../components/spotify/CurrentlyPlaying';
 import { ArtistCard } from '../components/spotify/ArtistCard';
 import { TrackCard } from '../components/spotify/TrackCard';
 import { AudioFeatures } from '../components/spotify/AudioFeatures';
@@ -46,18 +44,18 @@ export const Dashboard: React.FC = () => {
     { id: 'artists', label: 'Top Artists', icon: Users },
     { id: 'tracks', label: 'Top Tracks', icon: Music },
     { id: 'recent', label: 'Recent', icon: Clock },
-    // { id: 'playlists', label: 'Features', icon: Headphones },
+    { id: 'playlists', label: 'Features', icon: Headphones },
   ] as const;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-green-900 text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-green-900 text-white">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-96 h-96 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-8 flex-1">
+      <div className="relative z-10 container mx-auto px-4 py-8">
         <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-8">
           <motion.div
             className="flex items-center gap-4"
@@ -65,16 +63,12 @@ export const Dashboard: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" 
-                alt="Spotify"
-                className="w-full h-full object-contain"
-              />
+            <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Music className="w-7 h-7 text-white" />
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                Statify
+                Spotify Profile
               </h1>
               <p className="text-gray-400">Welcome back, {user.display_name}</p>
             </div>
@@ -123,13 +117,13 @@ export const Dashboard: React.FC = () => {
                 className="space-y-8"
               >
                 {/* Currently Playing */}
-                {/* <section>
+                <section>
                   <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                     <TrendingUp className="w-7 h-7 text-green-400" />
                     Now Playing
                   </h2>
                   <CurrentlyPlaying />
-                </section> */}
+                </section>
 
                 {/* Time Range Selector */}
                 <section className="flex justify-center">
@@ -429,30 +423,6 @@ export const Dashboard: React.FC = () => {
           )}
         </main>
       </div>
-
-      {/* Footer */}
-      <footer className="relative z-10 mt-12 border-t border-white/10 bg-black/20 backdrop-blur-xl">
-        <div className="container mx-auto px-4 py-6">
-          <motion.div
-            className="flex flex-col items-center justify-center gap-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <span>Designed and Developed with</span>
-              <Heart className="w-4 h-4 text-red-400 animate-pulse" />
-              <span>by</span>
-              <span className="font-semibold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                Pugazhendhi GM
-              </span>
-            </div>
-            <div className="text-xs text-gray-500">
-              © 2024 Statify. All rights reserved.
-            </div>
-          </motion.div>
-        </div>
-      </footer>
     </div>
   );
 };
